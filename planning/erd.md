@@ -1,0 +1,39 @@
+User document
+{
+  _id:   number,
+  name:  string,
+  trips: [1, 2, 3] Not sure if i want to reference my "trips" here
+}
+
+Trip document
+{
+  _id:  number,
+  transport_itinerary: { origin_city: string,
+                         destination_city: string,
+                         arrival_date: date,
+                         departure_date: date,
+                         price: number,
+                         duration: number
+                        },
+
+    "may have to make a separate 'daily itinerary' document instead of embedding here"
+
+  daily_itinerary:{
+    day_one:[{ venue_name: string,
+              lng: number,
+              lat: number,
+              city: string,
+              url: string },
+              { venue_name: string,
+                lng: number,
+                lat: number,
+                city: string,
+                url: string }
+            }]
+    day_two: [{ venue_name: string,
+               lng: number,
+               lat: number,
+               city: string,
+               url: string }]  
+  }
+}  
