@@ -34,6 +34,6 @@ Trip document
                lng: number,
                lat: number,
                city: string,
-               url: string }]  
+               url: string }]
   }
-}  
+}
