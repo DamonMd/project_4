@@ -1,0 +1,15 @@
+
+<script>
+  $(function() {
+    $( "#date1" ).datepicker();
+    $( "#date2" ).datepicker();
+  });
+</script>
+
+<form class="search" method='get' action='/results'>
+  <input type="text" placeholder="origin" name="origin">
+  <input type="text" placeholder="Destination" name="destination-city">
+  <input type="text" placeholder="start" name="start-date" id="date1">
+  <input type="text" placeholder="return"name="return-date" id="date2">
+  <button type="submit">yeah
+</form>

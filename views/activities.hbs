@@ -1,0 +1,235 @@
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?v=3.exp&signed_in=true&libraries=places"></script>
+
+
+<h1>stuff</h1>
+
+<!-- <div>
+<form class="activities" method='get' action='/activities'>
+  <input type="text" placeholder="what you wanna do" id="activity">
+  <input type="text" placeholder="destination" id="destination">
+  <button type="submit">Search
+</form>
+</div> -->
+<div class="city-button">
+  <label for="gmap_where">Where:</label>
+  <input id="gmap_where" type="text" name="gmap_where" />
+<button id="button2" class="button" >Search</button>
+</div>
+
+<div class="search-button">
+  <label for="gmap_keyword">Keyword</label>
+  <input id="gmap_keyword" type="text" name="gmap_keyword" />
+  <button id="keyword" class="button" >Search</button>
+</div>
+
+
+<div id='location'>
+<input type="hidden" id="lat" name="lat" value="40.7143528" />
+<input type="hidden" id="lng" name="lng" value="-74.0059731" />
+</div>
+
+<div id="map-canvas" style="visibility: hidden "></div>
+
+
+<script type="text/javascript">
+// document.querySelector(".activities").addEventListener('submit', function(event){
+//   event.preventDefault()
+//
+//   document.querySelector("#map-canvas").style.visibility = ""
+// })
+   </script>
+    <script type="text/javascript">
+var map
+var infowindow
+var markers = []
+var windows = []
+var activity = document.querySelector("#activity")
+
+function initialize() {
+  geocoder = new google.maps.Geocoder()
+
+  var pyrmont = new google.maps.LatLng(-33.8665433, 151.1956316);
+  map = new google.maps.Map(document.getElementById('map-canvas'), {
+    center: pyrmont,
+    zoom: 14
+  });
+
+
+  var request = {
+    location: pyrmont,
+    radius: 500,
+    types: activity
+  };
+  infowindow = new google.maps.InfoWindow();
+  var service = new google.maps.places.PlacesService(map);
+  service.nearbySearch(request, callback);
+}
+
+function callback(results, status) {
+  if (status == google.maps.places.PlacesServiceStatus.OK) {
+    for (var i = 0; i < results.length; i++) {
+      createMarker(results[i]);
+    }
+  }
+}
+
+function clearMarkers(){
+  if(markers){
+    for (i in markers){
+        markers[i].setMap(null)
+
+    }
+    markers = []
+    windows = []
+  }
+}
+
+function clearWindows() {
+    if (windows) {
+        for (i in windows) {
+            if (windows[i].getMap()) {
+                windows[i].close();
+            }
+        }
+    }
+}
+
+function createMarker(place) {
+  // var placeLoc = place.geometry.location;
+  var marker = new google.maps.Marker({
+    map: map,
+    position: place.geometry.location,
+    title: place.name,
+    rating: place.rating
+  });
+
+  markers.push(marker);
+
+
+var infowindow = new google.maps.InfoWindow({
+	content: '<img src="' + place.icon + '" /><font style="color:#000;">' + place.name +
+	'<br />Rating: ' + place.rating + '<br />Vicinity: ' + place.vicinity + '</font>' + '<a href=#>Add to My shit</a>'
+	    })
+
+
+  google.maps.event.addListener(marker, 'click', function() {
+    // infowindow.setContent(place.name);
+    clearWindows();
+    infowindow.open(map, this)
+  })
+  windows.push(infowindow)
+}
+
+function findAddress(){
+  var address = document.querySelector("#gmap_where").value
+  geocoder.geocode( { 'address': address}, function(results, status) {
+    if (status == google.maps.GeocoderStatus.OK) {
+      var addrLocation = results[0].geometry.location;
+      map.setCenter(addrLocation);
+
+      document.getElementById('lat').value = results[0].geometry.location.lat()
+      document.getElementById('lng').value = results[0].geometry.location.lng()
+
+      var addrMarker = new google.maps.Marker({
+                position: addrLocation,
+                map: map,
+                title: results[0].formatted_address
+    })
+  }
+})
+}
+
+function findPlaces() {
+
+	    // prepare variables (filter)
+	    // var type = document.getElementById('gmap_type').value;
+	    // var radius = document.getElementById('gmap_radius').value;
+	    var keyword = document.getElementById('gmap_keyword').value;
+
+	    var lat = document.getElementById('lat').value;
+	    var lng = document.getElementById('lng').value;
+      var cur_location = new google.maps.LatLng(lat, lng);
+
+	    // prepare request to Places
+	    var request = {
+          key: "AIzaSyBfu9hLoL5W9W3FnppbyA_80t_Jc0L9uWw",
+	        location: cur_location,
+	        radius: 5000,
+	        keyword: [keyword]
+	    };
+    // if (keyword) {
+    //     request.keyword = [keyword];
+	  //   }
+
+	    // send request
+	    service = new google.maps.places.PlacesService(map);
+	    service.search(request, createMarkers);
+}
+function createMarkers(results, status) {
+    if (status == google.maps.places.PlacesServiceStatus.OK) {
+
+        // if we have found something - clear map (overlays)
+        clearMarkers()
+
+        // and create new markers by search result
+      for (var i = 0; i < results.length; i++) {
+          createMarker(results[i]);
+        }
+    } else if (status == google.maps.places.PlacesServiceStatus.ZERO_RESULTS) {
+        alert('Sorry, nothing is found');
+    }
+}
+
+var new_search = document.querySelector("#button2")
+new_search.addEventListener('click', function(event){
+  event.preventDefault()
+     findAddress()
+  document.querySelector("#map-canvas").style.visibility = ""
+})
+
+var keyword_search = document.getElementById('keyword')
+keyword_search.addEventListener('click', function(event){
+  event.preventDefault()
+  findPlaces()
+  document.getElementById('gmap_keyword').value = ""
+})
+
+
+
+google.maps.event.addDomListener(window, 'load', initialize);
+    // var map;
+    //
+    // function initialize() {
+    //   // Create a map centered in Pyrmont, Sydney (Australia).
+    //   map = new google.maps.Map(document.getElementById('map-canvas'), {
+    //     center: {lat: -33.8666, lng: 151.1958},
+    //     zoom: 15
+    //   });
+    //
+    //   // Search for Google's office in Australia.
+    //   var request = {
+    //     location: map.getCenter(),
+    //     radius: '500',
+    //     query: 'Google Sydney'
+    //   };
+    //
+    //   var service = new google.maps.places.PlacesService(map);
+    //   service.textSearch(request, callback);
+    // }
+    //
+    // // Checks that the PlacesServiceStatus is OK, and adds a marker
+    // // using the place ID and location from the PlacesService.
+    // function callback(results, status) {
+    //   if (status == google.maps.places.PlacesServiceStatus.OK) {
+    //     var marker = new google.maps.Marker({
+    //       map: map,
+    //       place: {
+    //         placeId: results[0].place_id,
+    //         location: results[0].geometry.location
+    //       }
+    //     });
+    //   }
+    // }
+    //
+    // google.maps.event.addDomListener(window, 'load', initialize);
+</script>
