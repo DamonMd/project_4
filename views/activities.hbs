@@ -1,4 +1,4 @@
-<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?v=3.exp&signed_in=true&libraries=places"></script>
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?v=3.exp&signed_in=false&libraries=places"></script>
 
 
 <h1>stuff</h1>
@@ -10,12 +10,37 @@
   <button type="submit">Search
 </form>
 </div> -->
+<!-- <div> -->
+<!-- <form method="post" action="/activities">
+  <input type="text" placeholder="Trip Name" name="trip_name">
+  <input type="text" placeholder="password" name="password">
+  <button type="submit">save
+</form>
+</div> -->
+
+<div class="new_trip">
+  <input type="text" placeholder="Your Name" name="user_name">
+  <input type="text" placeholder="Trip Name" name="trip_name">
+  <button id="create_trip" class="button">save</button>
+</div>
+
+
+<div id="trip_info">
+  <p style="display: none" id="user">foo</p>
+  <p style="display: none" id="new_trip_name">cat</p>
+  <p style="display: none" id="new_trip_id">12345</p>
+</div>
+
+
+
+<!-- remove these br tags -->
+<br>
 <div class="city-button">
   <label for="gmap_where">Where:</label>
   <input id="gmap_where" type="text" name="gmap_where" />
 <button id="button2" class="button" >Search</button>
 </div>
-
+<br>
 <div class="search-button">
   <label for="gmap_keyword">Keyword</label>
   <input id="gmap_keyword" type="text" name="gmap_keyword" />
@@ -26,6 +51,11 @@
 <div id='location'>
 <input type="hidden" id="lat" name="lat" value="40.7143528" />
 <input type="hidden" id="lng" name="lng" value="-74.0059731" />
+</div>
+
+<div id='test'>
+<input type="hidden" id="place_name" name="place_name" value="m" ></input>
+<input type="hidden" id="idk" name="idk" value="m" />
 </div>
 
 <div id="map-canvas" style="visibility: hidden "></div>
@@ -108,8 +138,37 @@ function createMarker(place) {
 
 var infowindow = new google.maps.InfoWindow({
 	content: '<img src="' + place.icon + '" /><font style="color:#000;">' + place.name +
-	'<br />Rating: ' + place.rating + '<br />Vicinity: ' + place.vicinity + '</font>' + '<a href=#>Add to My shit</a>'
+	'<br />Rating: ' + place.rating + '<br />Vicinity: ' + place.vicinity + '</font>' + "<div id='add'><a href=#>Add to my trip</a></div>"
 	    })
+
+  var data = { place_name: place.name,
+               rating: place.rating,
+               icon: place.icon,
+               address: place.vicinity,
+               placeid: place.place_id }
+  // , place.icon, place.rating, place.vicinity, place.place_id
+
+      google.maps.event.addListener(infowindow, 'domready', function() {
+          document.getElementById("add").addEventListener("click", function(e) {
+              // e.stop()
+          // document.getElementById('place_name').value = place_name
+          // {trip_id: ???, activity:
+          // {activities: [{place_name: place_name}]},
+          $.ajax({
+            type: 'POST',
+            data: {activities: [data]},
+            dataType: 'json',
+            url: "/trips"
+          }).done(function(response){
+            console.log("ajaxed", response)
+          }).fail(function(){
+            console.log("failed to save")
+          })
+
+
+          })
+      })
+  // var trip_data =
 
 
   google.maps.event.addListener(marker, 'click', function() {
