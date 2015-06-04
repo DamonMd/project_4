@@ -1,0 +1,54 @@
+<script src="http://code.jquery.com/jquery-1.10.2.js"></script>
+<script src="http://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+
+<script>
+$(function() {
+   $( "#mysort1, #mysort2" ).sortable({
+      connectWith: "#mysort1, #mysort2, #mysort3"
+   });
+   $( "#mysort3").sortable({
+      connectWith: "#mysort2",
+      dropOnEmpty: false
+   });
+});
+    </script>
+
+
+<h2>so here is this page</h2>
+
+<p>{{trips.name}}</p>
+<p>{{trips.user}}</p>
+<ul id="mysort1">
+{{# each trips.activities}}
+<li class="mylist">{{this.place_name}}</li>
+<li class="mylist">{{this.address}}</li>
+<li class="mylist">{{this.icon}}</li>
+<li class="mylist">{{this.placeid}}</li>
+{{/each}}
+</ul>
+
+<div id="mysort1">
+  {{# each trips.activities}}
+  <div class="mylist">
+    <p>{{this.place_name}}</p>
+    <p>{{this.address}}</p>
+  </div>  
+<li class="mylist">{{this.place_name}}</li>
+<li class="mylist">{{this.address}}</li>
+<li class="mylist">{{this.icon}}</li>
+<li class="mylist">{{this.placeid}}</li>
+{{/each}}
+</ul>
+
+<ul id='mysort2'>
+  <h3>Day 1</h3>
+</ul>
+
+<ul id='mysort3'>
+  <h3>Day 2</h3>
+</ul>
+
+<!--
+{{#each users}}
+  {{this.name}}
+{{/each}} -->

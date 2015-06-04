@@ -2,7 +2,7 @@
 
 
 <h1>stuff</h1>
-
+<p>{{test}}</p>
 <!-- <div>
 <form class="activities" method='get' action='/activities'>
   <input type="text" placeholder="what you wanna do" id="activity">
@@ -19,16 +19,16 @@
 </div> -->
 
 <div class="new_trip">
-  <input type="text" placeholder="Your Name" name="user_name">
-  <input type="text" placeholder="Trip Name" name="trip_name">
-  <button id="create_trip" class="button">save</button>
+  <input type="text" placeholder="Your Name" id="user_name">
+  <input type="text" placeholder="Trip Name" id="trip_name">
+  <button id="create_trip" class="button">create</button>
 </div>
 
 
 <div id="trip_info">
-  <p style="display: none" id="user">foo</p>
-  <p style="display: none" id="new_trip_name">cat</p>
-  <p style="display: none" id="new_trip_id">12345</p>
+  <p style="display: none" id="current_user" >foo</p>
+  <p style="display: none" id="current_trip_name">cat</p>
+  <p style="display: none" id="current_trip_id">12345</p>
 </div>
 
 
@@ -47,16 +47,17 @@
   <button id="keyword" class="button" >Search</button>
 </div>
 
+<p><a id="save_trip" href="#">Save Itinerary</a></p>
+<p><a id="see_trip" href=itinerary>See Itinerary</a></p>
+<form>
+
 
 <div id='location'>
 <input type="hidden" id="lat" name="lat" value="40.7143528" />
 <input type="hidden" id="lng" name="lng" value="-74.0059731" />
 </div>
 
-<div id='test'>
-<input type="hidden" id="place_name" name="place_name" value="m" ></input>
-<input type="hidden" id="idk" name="idk" value="m" />
-</div>
+
 
 <div id="map-canvas" style="visibility: hidden "></div>
 
@@ -69,6 +70,52 @@
 // })
    </script>
     <script type="text/javascript">
+    // var itinerary = "/activities/puppy"
+    // document.getElementById("itinerary").addEventListener("click", function(e){
+    //   var this_id = document.getElementById("current_trip_id").innerHTML
+    //   console.log('this id is' + this_id)
+    //   $.ajax({
+    //     type: 'POST',
+    //     data: {id: this_id},
+    //     dataType: 'json',
+    //     url: "/trips"
+    //   }).done(function(response){
+    //     console.log("ajaxed", response)
+    //   }).fail(function(){
+    //     console.log("failed to save")
+    //   })
+    // })
+
+    document.getElementById("save_trip").addEventListener("click", function(e){
+        e.preventDefault
+        var id = document.getElementById("current_trip_id").innerHTML
+        document.getElementById("see_trip").href = ("/activities/" + id)
+    })
+
+
+    document.getElementById("create_trip").addEventListener("click", function(e){
+      var user_name = document.getElementById("user_name").value
+      var trip_name = document.getElementById("trip_name").value
+    $.ajax({
+      type: 'POST',
+      data: {name: trip_name, user: user_name},
+      dataType: 'json',
+      url: "/activities"
+    }).done(function(response){
+      console.log("ajaxed", response)
+      console.log(response._id)
+      document.getElementById("current_trip_id").innerHTML = response._id
+    }).fail(function(){
+      console.log("failed to save")
+    })
+      document.getElementById("current_user").innerHTML = user_name
+      document.getElementById("current_trip_name").innerHTML = trip_name
+      document.getElementById("current_user").style.display = 'block'
+      document.getElementById("current_trip_name").style.display = 'block'
+  })
+
+
+
 var map
 var infowindow
 var markers = []
@@ -141,36 +188,49 @@ var infowindow = new google.maps.InfoWindow({
 	'<br />Rating: ' + place.rating + '<br />Vicinity: ' + place.vicinity + '</font>' + "<div id='add'><a href=#>Add to my trip</a></div>"
 	    })
 
-  var data = { place_name: place.name,
+  var activity_data = { place_name: place.name,
                rating: place.rating,
                icon: place.icon,
                address: place.vicinity,
                placeid: place.place_id }
   // , place.icon, place.rating, place.vicinity, place.place_id
 
-      google.maps.event.addListener(infowindow, 'domready', function() {
-          document.getElementById("add").addEventListener("click", function(e) {
+      // google.maps.event.addListener(infowindow, 'domready', function() {
+      //     document.getElementById("add").addEventListener("click", function(e) {
               // e.stop()
           // document.getElementById('place_name').value = place_name
           // {trip_id: ???, activity:
           // {activities: [{place_name: place_name}]},
-          $.ajax({
-            type: 'POST',
-            data: {activities: [data]},
-            dataType: 'json',
-            url: "/trips"
-          }).done(function(response){
-            console.log("ajaxed", response)
-          }).fail(function(){
-            console.log("failed to save")
-          })
-
-
-          })
-      })
+      //     $.ajax({
+      //       type: 'POST',
+      //       data: {activities: [activity_data]},
+      //       dataType: 'json',
+      //       url: "/trips"
+      //     }).done(function(response){
+      //       console.log("ajaxed", response)
+      //     }).fail(function(){
+      //       console.log("failed to save")
+      //     })
+      //
+      //
+      //     })
+      // })
   // var trip_data =
-
-
+  google.maps.event.addListener(infowindow, 'domready', function() {
+      var current_id = document.getElementById("current_trip_id").innerHTML
+      document.getElementById("add").addEventListener("click", function(e) {
+        $.ajax({
+          type: 'PUT',
+          data: {data: activity_data, id: current_id},
+          dataType: 'json',
+          url: "/activities"
+        }).done(function(response){
+          console.log("ajaxed", response)
+        }).fail(function(){
+          console.log("failed to save")
+        })
+      })
+  })
   google.maps.event.addListener(marker, 'click', function() {
     // infowindow.setContent(place.name);
     clearWindows();

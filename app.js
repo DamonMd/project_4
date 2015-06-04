@@ -20,6 +20,13 @@ app.get('/login', function(req, res) {
   res.render('login')
 })
 
+app.get("/itinerary", function(req, res){
+  // Trip.findById(req.body.id, function(err, trip){
+  //   res.render('itinerary', {trips: trip})
+  // })
+  res.render('itinerary')
+})
+
 app.post('/login', function(req, res){
   var new_user = new User({
     name: req.body.name
@@ -57,25 +64,61 @@ app.get("/activities", function(req, res){
 })
 
 app.post("/activities", function(req, res){
-  trip_id = req.body.trip_id
-  existing_trip = Trip.find(req)
-  var new_activity = new Activity(req.body.activity)
-  existing_trip.activites.push(new_activity)
-  existing_trip.save(function(err){
+  var test = new Trip(
+    req.body
+  )
+  test.save(function(err){
     if (err) throw err
-    res.json(new_activity);
+
+    res.json(test)
   })
-  // res.render('activities')
+
+
+
+//   trip_id = req.body.trip_id
+//   existing_trip = Trip.find(req)
+//   var new_activity = new Activity(req.body.activity)
+//   existing_trip.activites.push(new_activity)
+//   existing_trip.save(function(err){
+//     if (err) throw err
+//     res.json(new_activity);
+//   })
+//
 })
 
 app.post("/trips", function(req, res){
-  var new_trip = new Trip(
-    req.body
-  )
-  new_trip.save(function(err){
-    if (err) throw err
+  // Trip.findById(req.body.id, function(err, trip){
+  //   res.send('itinerary', {trips: trip})
+  // })
+    var id = req.body.id
+    res.send(id + ' ')
 
-    res.json(new_trip);
+  // var new_trip = new Trip(
+  //   req.body
+  // )
+  // new_trip.save(function(err){
+  //   if (err) throw err
+  //
+  //   res.json(new_trip);
+  // })
+})
+
+app.put("/activities", function(req,res){
+  Trip.findByIdAndUpdate( req.body.id, {$push: {activities: req.body.data}},
+  function (err, trip) {
+        if (err) throw err
+        console.log(trip.test)
+        res.json(trip)
+      }
+   )
+
+})
+
+app.get("/activities/:id", function(req, res){
+  // var id = req.params.id
+  // res.render('itinerary', {trips: id})
+  Trip.findById(req.params.id, function(err, trip){
+    res.render('itinerary', {trips: trip})
   })
 })
 
