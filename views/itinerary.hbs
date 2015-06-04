@@ -1,54 +1,98 @@
 <script src="http://code.jquery.com/jquery-1.10.2.js"></script>
 <script src="http://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
 
-<script>
-$(function() {
-   $( "#mysort1, #mysort2" ).sortable({
-      connectWith: "#mysort1, #mysort2, #mysort3"
-   });
-   $( "#mysort3").sortable({
-      connectWith: "#mysort2",
-      dropOnEmpty: false
-   });
-});
-    </script>
-
-
-<h2>so here is this page</h2>
+<h2>Results</h2>
 
 <p>{{trips.name}}</p>
 <p>{{trips.user}}</p>
-<ul id="mysort1">
+<!-- <ul id="mysort1">
 {{# each trips.activities}}
 <li class="mylist">{{this.place_name}}</li>
 <li class="mylist">{{this.address}}</li>
 <li class="mylist">{{this.icon}}</li>
 <li class="mylist">{{this.placeid}}</li>
 {{/each}}
-</ul>
+</ul> -->
 
 <div id="mysort1">
   {{# each trips.activities}}
   <div class="mylist">
+    <image src={{this.icon}}>
     <p>{{this.place_name}}</p>
     <p>{{this.address}}</p>
-  </div>  
-<li class="mylist">{{this.place_name}}</li>
-<li class="mylist">{{this.address}}</li>
-<li class="mylist">{{this.icon}}</li>
-<li class="mylist">{{this.placeid}}</li>
-{{/each}}
-</ul>
+    <p>{{this.rating}}</p>
+    <p style="display: none" class="id"> {{this.placeid}} </p>
+  </div>
+  {{/each}}
+</div>
 
+
+<div class="days">
 <ul id='mysort2'>
-  <h3>Day 1</h3>
+  <h3>Day 1</h3><button id='mysort2'class="day_map">View on Map</button>
+
 </ul>
 
 <ul id='mysort3'>
-  <h3>Day 2</h3>
+  <h3>Day 2</h3><button id='mysort3' class="day_map">View on Map</button>
 </ul>
 
-<!--
-{{#each users}}
-  {{this.name}}
-{{/each}} -->
+<ul id='mysort4'>
+  <h3>Day 3</h3><button id='mysort4' class="day_map">View on Map</button>
+</ul>
+<ul id='mysort5'>
+  <h3>Day 4</h3><button id='mysort5'class="day_map">View on Map</button>
+</ul>
+
+</div>
+
+
+
+<a id="new_day" href=''>add new day</a>
+
+<div id="map-canvas" style="visibility: hidden "></div>
+
+<script type="text/javascript">
+var day_counter = 5
+var sort_coutner = 6
+document.getElementById("new_day").addEventListener("click", function(e){
+  e.preventDefault()
+  var ul = document.createElement("ul")
+  ul.id = "mysort" + sort_coutner
+  ul.setAttribute("class", "ui-sortable")
+  var h = document.createElement("h3")
+  h.innerHTML = "Day " + day_counter
+  ul.appendChild(h)
+  var button = document.createElement("button")
+  button.innerHTML = 'View on Map'
+  button.id = "mysort" + sort_coutner
+  ul.setAttribute("class", "day_map")
+  ul.appendChild(button)
+  var element = document.querySelector(".days")
+  element.appendChild(ul)
+  day_counter = day_counter + 1
+  sort_coutner = sort_coutner + 1
+})
+
+var day_map = document.querySelectorAll(".day_map")
+
+
+function addListener (array){
+  for(var i = 0; i < array.length; i++){
+    array[i].addEventListener('click', function(){
+      alert("click")
+    })
+  }
+}
+addListener(day_map)
+
+$(function () {
+   $( "#mysort1, #mysort2, #mysort3, #mysort4, #mysort5, #mysort6, #mysort7, #mysort8, #mysort9").sortable({
+      connectWith: "#mysort1, #mysort2, #mysort3, #mysort4, #mysort5, #mysort6, #mysort7, #mysort8, #mysort9"
+   });
+  //  $( "#mysort3").sortable({
+  //     connectWith: "#mysort2",
+  //     dropOnEmpty: false
+  //  });
+});
+</script>
