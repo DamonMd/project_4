@@ -2,7 +2,7 @@
   "name": "project_4",
   "version": "1.0.0",
   "description": "",
-  "main": "server.js",
+  "main": "app.js",
   "dependencies": {
     "body-parser": "^1.12.4",
     "connect-flash": "^0.1.1",

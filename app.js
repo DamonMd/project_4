@@ -6,7 +6,10 @@ var hbs = require("hbs")
 var User = require('./models/user.js')
 var Trip = require('./models/trip.js')
 var mongoose = require('mongoose')
-mongoose.connect('mongodb://localhost/travelPlanner')
+var http = require('http')
+var port = Number(process.env.PORT || 3000)
+var mongoUri = process.env.MONGOLAB_URI || 'mongodb://localhost/travelPlanner'
+mongoose.connect(mongoUri)
 
 app.set("view engine", "hbs")
 app.use(express.static(__dirname + "/public"))
@@ -89,7 +92,8 @@ app.get("/activities/:id", function(req, res){
   })
 })
 
+app.listen(port)
 
-app.listen(3000, function(){
-  console.log("app listening on port 3000")
-})
+// app.listen(3000, function(){
+//   console.log("app listening on port 3000")
+// })
