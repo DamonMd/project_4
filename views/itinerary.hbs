@@ -1,65 +1,126 @@
+<div class='drag_wrapper'>
+  <h2>Finalize Your Trip</h2>
 
-<h2>Results</h2>
-
-<p>{{trips.name}}</p>
-<p>{{trips.user}}</p>
-
-
-<div id="mysort1" >
-  {{# each trips.activities}}
-  <div class="mylist">
-    <image src={{this.icon}}>
-    <p>{{this.place_name}}</p>
-    <p>{{this.address}}</p>
-    <p>{{this.rating}}</p>
-    <p style="display: none" class="id"> {{this.placeid}} </p>
-  </div>
-  {{/each}}
+  <p>Welcome: {{trips.user}}</p>
+  <p>Your Current Trip: {{trips.name}}</p>
 </div>
 
+<!-- <div id="mysort1" >
+{{# each trips.activities}}
+<div class="mylist">
+<image src={{this.icon}}>
+<p>{{this.place_name}}</p>
+<p>{{this.address}}</p>
+<p>{{this.rating}}</p>
+<p style="display: none" class="id"> {{this.placeid}} </p>
+</div>
+{{/each}}
+</div> -->
 
-<div class="days">
+<!-- <ul id="mysort1" >
+{{# each trips.activities}}
+<div class="mylist">
+<image src={{this.icon}}>
+<li>{{this.place_name}}
+{{this.address}}
+{{this.rating}}</li>
+<li style="display: none" class="id"> {{this.placeid}} </li>
+{{/each}}
+</ul> -->
+
+
+
+<!-- <div class="days">
 <ul id='mysort2'>
-  <h3>Day 1</h3><button id='mysort2'class="day_map">View on Map</button>
+<h3>Day 1</h3><button id='mysort2'class="day_map">View on Map</button>
 
 </ul>
 
 <ul id='mysort3'>
-  <h3>Day 2</h3><button id='mysort3' class="day_map">View on Map</button>
+<h3>Day 2</h3><button id='mysort3' class="day_map">View on Map</button>
 </ul>
 
 <ul id='mysort4'>
-  <h3>Day 3</h3><button id='mysort4' class="day_map">View on Map</button>
+<h3>Day 3</h3><button id='mysort4' class="day_map">View on Map</button>
 </ul>
 <ul id='mysort5'>
-  <h3>Day 4</h3><button id='mysort5'class="day_map">View on Map</button>
+<h3>Day 4</h3><button id='mysort5'class="day_map">View on Map</button>
 </ul>
 
-</div>
+</div> -->
+
+<div class="drag_drop" id="tbd">
+  <div class="section-header">
+    <div class="description" style="background: lightgray">Drag and drop items within and between lists.</div>
+  </div>
+  <div class="content">
+
+    <div class='drag_wrapper'>
+      <div id="drag_lists">
+
+        <div class="column left first">
+
+          <ul class="sortable_list">
+            <h2>Saved Venues</h2>
+            {{# each trips.activities}}
+            <li class="sortable_item"><image src={{this.icon}}><br>{{this.place_name}}<br>{{this.address}}<br>Rating: {{this.rating}}</li>
+              {{/each}}
+            </ul>
+
+          </div>
+
+          <div class="column left" id="left">
+            <ul class="sortable_list">
+              <h2>Day 1</h2>
+            </ul>
+            <br>
+            <ul class="sortable_list">
+              <h2>Day 3</h2>
+            </ul>
+            <br>
+          </div>
+
+          <div class="column left" id="right">
+
+            <ul class="sortable_list">
+              <h2>Day 2</h2>
+            </ul>
+            <br>
+            <ul class="sortable_list">
+              <h2>Day 4</h2>
+            </ul>
+
+
+          </div>
+
 
 
 
 <a id="new_day" href=''>add new day</a>
+<button id="map_view">view on map</button>
 
-<div id="map-canvas"></div>
+<div id="map-canvas" style='visibility: hidden'></div>
 
 <script type="text/javascript">
+document.getElementById("map_view").addEventListener("click", function(e){
+  document.querySelector("#map-canvas").style.visibility = ""
+})
 var day_counter = 5
 var sort_coutner = 6
 document.getElementById("new_day").addEventListener("click", function(e){
   e.preventDefault()
   var ul = document.createElement("ul")
-  ul.id = "mysort" + sort_coutner
-  ul.setAttribute("class", "ui-sortable")
-  var h = document.createElement("h3")
+  // ul.id = "sortable_list" + sort_coutner
+  ul.setAttribute("class", "sortable_list ui-sortable")
+  var h = document.createElement("h2")
   h.innerHTML = "Day " + day_counter
   ul.appendChild(h)
   var button = document.createElement("button")
   button.innerHTML = 'View on Map'
   button.id = "mysort" + sort_coutner
-  ul.setAttribute("class", "day_map")
+  // ul.setAttribute("class", "day_map")
   ul.appendChild(button)
-  var element = document.querySelector(".days")
+  var element = document.querySelector("#left")
   element.appendChild(ul)
   day_counter = day_counter + 1
   sort_coutner = sort_coutner + 1
@@ -95,17 +156,17 @@ var windows = []
 function initialize() {
   geocoder = new google.maps.Geocoder()
 
-  var dc = new google.maps.LatLng(38.9047, 77.0164);
+  var tokyo = new google.maps.LatLng(35.670479, 139.740921);
   map = new google.maps.Map(document.getElementById('map-canvas'), {
-    center: dc,
+    center: tokyo,
     zoom: 14
   });
 
 
   var request = {
-    location: dc,
+    location: tokyo,
     radius: 1000,
-    keyword: "General Assembly"
+    keyword: "Best Ramen"
   };
   infowindow = new google.maps.InfoWindow();
   var service = new google.maps.places.PlacesService(map);
@@ -163,29 +224,8 @@ var infowindow = new google.maps.InfoWindow({
                icon: place.icon,
                address: place.vicinity,
                placeid: place.place_id }
-  // , place.icon, place.rating, place.vicinity, place.place_id
 
-      // google.maps.event.addListener(infowindow, 'domready', function() {
-      //     document.getElementById("add").addEventListener("click", function(e) {
-              // e.stop()
-          // document.getElementById('place_name').value = place_name
-          // {trip_id: ???, activity:
-          // {activities: [{place_name: place_name}]},
-      //     $.ajax({
-      //       type: 'POST',
-      //       data: {activities: [activity_data]},
-      //       dataType: 'json',
-      //       url: "/trips"
-      //     }).done(function(response){
-      //       console.log("ajaxed", response)
-      //     }).fail(function(){
-      //       console.log("failed to save")
-      //     })
-      //
-      //
-      //     })
-      // })
-  // var trip_data =
+
   google.maps.event.addListener(infowindow, 'domready', function() {
       var current_id = document.getElementById("current_trip_id").innerHTML
       document.getElementById("add").addEventListener("click", function(e) {
@@ -269,19 +309,6 @@ function createMarkers(results, status) {
     }
 }
 
-var new_search = document.querySelector("#button2")
-new_search.addEventListener('click', function(event){
-  event.preventDefault()
-     findAddress()
-  document.querySelector("#map-canvas").style.visibility = ""
-})
-
-var keyword_search = document.getElementById('keyword')
-keyword_search.addEventListener('click', function(event){
-  event.preventDefault()
-  findPlaces()
-  document.getElementById('gmap_keyword').value = ""
-})
 
 var day_map = document.querySelectorAll(".day_map")
 
@@ -297,39 +324,17 @@ addListener(day_map)
 
 
 google.maps.event.addDomListener(window, 'load', initialize);
-    // var map;
-    //
-    // function initialize() {
-    //   // Create a map centered in Pyrmont, Sydney (Australia).
-    //   map = new google.maps.Map(document.getElementById('map-canvas'), {
-    //     center: {lat: -33.8666, lng: 151.1958},
-    //     zoom: 15
-    //   });
-    //
-    //   // Search for Google's office in Australia.
-    //   var request = {
-    //     location: map.getCenter(),
-    //     radius: '500',
-    //     query: 'Google Sydney'
-    //   };
-    //
-    //   var service = new google.maps.places.PlacesService(map);
-    //   service.textSearch(request, callback);
-    // }
-    //
-    // // Checks that the PlacesServiceStatus is OK, and adds a marker
-    // // using the place ID and location from the PlacesService.
-    // function callback(results, status) {
-    //   if (status == google.maps.places.PlacesServiceStatus.OK) {
-    //     var marker = new google.maps.Marker({
-    //       map: map,
-    //       place: {
-    //         placeId: results[0].place_id,
-    //         location: results[0].geometry.location
-    //       }
-    //     });
-    //   }
-    // }
-    //
-    // google.maps.event.addDomListener(window, 'load', initialize);
+
+</script>
+<script type="text/javascript">
+
+$(document).ready(function(){
+
+
+	$('#drag_lists .sortable_list').sortable({
+		connectWith: '#drag_lists .sortable_list'
+	})
+
+})
+
 </script>

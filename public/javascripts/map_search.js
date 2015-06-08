@@ -1,48 +1,3 @@
-
-<div class="activities page">
-  <h2 id="title">First, Create Your Trip Below!</h2>
-
-
-  <div class="new_trip">
-    <input type="text" placeholder="Your Name" id="user_name">
-    <input type="text" placeholder="Trip Name" id="trip_name">
-    <button id="create_trip" class="button">create</button>
-    <a style="display: none" class="itinerary_link" id="save_trip" href="#">Save Itinerary</a>
-    <a style="display: none" class="itinerary_link" id="see_trip" href=activities>See Itinerary</a>
-    <p style="display: none" id="current_user" >foo</p>
-    <p style="display: none" id="current_trip_name">cat</p>
-  </div>
-
-  <div id="trip_info">
-    <p style="display: none" id="current_trip_id">12345</p>
-  </div>
-
-  <div id="map-canvas" ></div>
-
-  <div style="display: none" class="events">
-    <div class="city-button">
-      <label for="gmap_where">Where:</label>
-      <input id="gmap_where" type="text" name="gmap_where" />
-      <button id="button2" class="button" >Search</button>
-    </div>
-
-    <div class="search-button">
-      <label for="gmap_keyword">Keyword(s):</label>
-      <input id="gmap_keyword" type="text" name="gmap_keyword" />
-      <button id="keyword" class="button" >Search</button>
-    </div>
-  </div>
-
-  <div id='location'>
-    <input type="hidden" id="lat" name="lat" value="38.9047" />
-    <input type="hidden" id="lng" name="lng" value="-77.0164" />
-  </div>
-
-</div>
-
-
-<script type="text/javascript">
-
 // this sets the link for the 'See Itnerary' link to match the current trip //
 // need to find a better way of handling this //
 document.getElementById("save_trip").addEventListener("click", function(e){
@@ -252,5 +207,3 @@ keyword_search.addEventListener('click', function(event){
 })
 
 google.maps.event.addDomListener(window, 'load', initialize);
-
- </script>

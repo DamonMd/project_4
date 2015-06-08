@@ -1,42 +1,39 @@
-.actions {
-	    background-color: #FFFFFF;
-	    bottom: 30px;
-    padding: 10px;
-	    position: absolute;
-	    right: 30px;
-	    z-index: 2;
+.activities{
+  background: black;
+  color: white;
+  font-family: 'Roboto Condensed', sans-serif;
+  text-align: center;
+}
 
-	    border-top: 1px solid #abbbcc;
-	    border-left: 1px solid #a7b6c7;
-	    border-bottom: 1px solid #a1afbf;
-	    border-right: 1px solid #a7b6c7;
-	    -webkit-border-radius: 12px;
-	    -moz-border-radius: 12px;
-	    border-radius: 12px;
+.events {
+	 /*background-color: transparent;*/
+  background: linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5) );
+	bottom: 20%;
+  padding: 10px;
+  position: absolute;
+	right: 30px;
+	z-index: 2;
+	border-top: 1px solid #abbbcc;
+	border-left: 1px solid #a7b6c7;
+	border-bottom: 1px solid #a1afbf;
+	border-right: 1px solid #a7b6c7;
+	border-radius: 12px;
+  font-size: 24px;
 	}
-	.actions label {
+	.events label {
 	    display: block;
 	    margin: 2px 0 5px 10px;
 	    text-align: left;	}	.actions input, .actions select {
-    width: 85%;
+      width: 85%;
 }
 .button {
-    background-color: #d7e5f5;
-    background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #d7e5f5), color-stop(100%, #cbe0f5));
-    background-image: -webkit-linear-gradient(top, #d7e5f5, #cbe0f5);
-    background-image: -moz-linear-gradient(top, #d7e5f5, #cbe0f5);
-    background-image: -ms-linear-gradient(top, #d7e5f5, #cbe0f5);
-    background-image: -o-linear-gradient(top, #d7e5f5, #cbe0f5);
-    background-image: linear-gradient(top, #d7e5f5, #cbe0f5);
-   border-top: 1px solid #abbbcc;
-   border-left: 1px solid #a7b6c7;
-   border-bottom: 1px solid #a1afbf;
-   border-right: 1px solid #a7b6c7;
-   -webkit-border-radius: 12px;
-   -moz-border-radius: 12px;
-   border-radius: 12px;
-  -webkit-box-shadow: inset 0 1px 0 0 white;
-  -moz-box-shadow: inset 0 1px 0 0 white;
+    /*background-color: #d7e5f5;*/
+    /*background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #d7e5f5), color-stop(100%, #cbe0f5));*/
+  border-top: 1px solid #abbbcc;
+  border-left: 1px solid #a7b6c7;
+  border-bottom: 1px solid #a1afbf;
+  border-right: 1px solid #a7b6c7;
+  border-radius: 12px;
   box-shadow: inset 0 1px 0 0 white;
   color: #1a3e66;
   font: normal 11px "Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", Geneva, Verdana, sans-serif;
@@ -46,15 +43,19 @@
   text-align: center;
   text-shadow: 0 1px 1px #fff;
   width: 150px;
+  background-color:transparent;
+  color: white;
+
 }
 .button:hover {
-    background-color: #ccd9e8;
-    background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #ccd9e8), color-stop(100%, #c1d4e8));
+    /*background-color: #ccd9e8;*/
+    background-color: darkgray;
+    /*background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #ccd9e8), color-stop(100%, #c1d4e8));
     background-image: -webkit-linear-gradient(top, #ccd9e8, #c1d4e8);
     background-image: -moz-linear-gradient(top, #ccd9e8, #c1d4e8);
     background-image: -ms-linear-gradient(top, #ccd9e8, #c1d4e8);
     background-image: -o-linear-gradient(top, #ccd9e8, #c1d4e8);
-    background-image: linear-gradient(top, #ccd9e8, #c1d4e8);
+    background-image: linear-gradient(top, #ccd9e8, #c1d4e8);*/
     border-top: 1px solid #a1afbf;
     border-left: 1px solid #9caaba;
     border-bottom: 1px solid #96a3b3;
@@ -71,4 +72,117 @@
     -moz-box-shadow: inset 0 0 4px 2px #abbccf, 0 0 1px 0 #eeeeee;
     box-shadow: inset 0 0 4px 2px #abbccf, 0 0 1px 0 #eeeeee;
 }
-- See more at: http://www.script-tutorials.com/google-places-api-practice/#sthash.NRAo2y7X.dpuf
+
+.new_trip{
+  display: inline;
+}
+.itinerary_link{
+  color: white;
+  background-color: black;
+  border-top: 1px solid #abbbcc;
+  border-left: 1px solid #a7b6c7;
+  border-bottom: 1px solid #a1afbf;
+  border-right: 1px solid #a7b6c7;
+  border-radius: 12px;
+  padding: 4px;
+}
+
+.itinerary_link:hover {
+  background: darkgray;
+}
+
+h2{
+  margin-top: 0px;
+}
+
+.new_trip{
+  font-size: 24px;
+}
+
+#mysort1, #mysort2, #mysort3, #mysort4, #mylist {
+  border: 1px solid #eee;
+  width: 142px;
+  min-height: 20px;
+  list-style-type: none;
+  margin: 0;
+  padding: 5px 0 0 0;
+  float: left;
+  margin-right: 10px;
+}
+#mysort1 li, #mysort2 li, #mysort3 li, #mysort4 li {
+  margin: 0 5px 5px 5px;
+  padding: 5px;
+  font-size: 1.2em;
+  width: 120px;
+}
+
+.left {float: left;}
+.right {float: right;}
+
+.clear,.clearer {clear: both;}
+.clearer {
+	display: block;
+	font-size: 0;
+	height: 0;
+	line-height: 0;
+}
+
+
+#center-wrapper {
+	margin: 0 auto;
+	width: 920px;
+}
+
+
+/* Columns */
+
+.column {
+	margin-left: 2%;
+	width: 32%;
+}
+.column.first {margin-left: 0;}
+
+
+/* Sortable items */
+
+.sortable_list {
+	background-color: gray;
+	list-style: none;
+	margin: 0;
+	min-height: 60px;
+	padding: 10px;
+
+}
+.sortable_item {
+	background-color: #FFF;
+	border: 1px solid #000;
+	cursor: move;
+	display: block;
+	font-weight: bold;
+	margin-bottom: 5px;
+	padding: 20px 0;
+	text-align: center;
+}
+
+/* Containment area */
+
+#containment {
+	background-color: #FFA;
+	height: 230px;
+}
+
+
+/* Item placeholder (visual helper) */
+
+.placeholder {
+	background-color: #BFB;
+	border: 1px dashed #666;
+	height: 58px;
+	margin-bottom: 5px;
+}
+
+.drag_wrapper{
+  font-family:'Roboto Condensed', sans-serif;
+  background: lightgray;
+  color: black;
+}

@@ -6,6 +6,8 @@ var hbs = require("hbs")
 var User = require('./models/user.js')
 var Trip = require('./models/trip.js')
 var mongoose = require('mongoose')
+var http = require('http')
+var port = Number(process.env.PORT || 3000)
 mongoose.connect('mongodb://localhost/travelPlanner')
 
 app.set("view engine", "hbs")
@@ -90,6 +92,4 @@ app.get("/activities/:id", function(req, res){
 })
 
 
-app.listen(3000, function(){
-  console.log("app listening on port 3000")
-})
+app.listen(port)
